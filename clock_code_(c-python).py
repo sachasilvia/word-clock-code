@@ -29,6 +29,6 @@ class RTC(object):
 r = RTC()
 rtc.set_time_source(r)
 while True:
-    current_time = time.time()
+    current_time = time.localtime()
     print(current_time)
     time.sleep(0.5)
