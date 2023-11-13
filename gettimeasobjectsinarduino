@@ -1,0 +1,31 @@
+#include <time.h>
+#include <sys/time.h>
+
+struct tm ts;
+
+void setup() {
+  
+  Serial.begin(9600);
+  
+  time_t rawtime = 1699555241;
+  ts = *localtime(&rawtime);
+  char buff[80];
+
+}
+
+void loop() {
+
+  //ts = *localtime(&rawtime);
+  
+  if(ts.tm_hour == 18){
+    Serial.println("reading :)");
+  }
+  else{
+    Serial.println("not reading :(");
+  }
+  Serial.print(ts.tm_hour);
+  Serial.print("  ");
+  Serial.print(ts.tm_min);
+  Serial.print('\n');
+  delay(1000);
+}
