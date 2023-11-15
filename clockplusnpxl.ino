@@ -30,8 +30,14 @@ void loop() {
   pixels.clear();  // all pixels off
 
   for (int i = 0; i < NUMPIXELS; i++) {
+    if(rtc.second >= 30) {
     pixels.setPixelColor(i, pixels.Color(255, 0, 0));  //(r,g,b), 0-255
     pixels.show();
+    }
+    if(rtc.second < 30) {
+      pixels.setPixelColor(i, pixels.Color(0,255,0));
+      pixels.show();
+    }
   }
 }
 void PrintTime() {
