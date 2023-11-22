@@ -67,21 +67,33 @@ PicoEspTime rtc;
 
 uint32_t lastTime;
 
-uint8_t hours[12][2]{
+uint8_t hours[24][2]{
 
   // if less than 81, -1 , if more than 81, -2
-  { 107, 109 },  // one
-  { 82, 84 },    // two
-  { 110, 114 },  // three
-  { 60, 63 },    // four
-  { 86, 89 },    // five
-  { 115, 117 },  // six
-  { 71, 75 },    // seven
-  { 94, 98 },    // eight
-  { 90, 93 },    // nine
-  { 118, 120 },  // ten
-  { 100, 105 },  // elven
-  { 77, 81 },    // twelve
+  { 77, 81 },    // twelve am (0)
+  { 107, 109 },  // one am (1)
+  { 82, 84 },    // two am (2)
+  { 110, 114 },  // three am (3)
+  { 60, 63 },    // four am (4)
+  { 86, 89 },    // five am (5)
+  { 115, 117 },  // six am (6)
+  { 71, 75 },    // seven am (7)
+  { 94, 98 },    // eight am (8)
+  { 90, 93 },    // nine am (9)
+  { 118, 120 },  // ten am (10)
+  { 100, 105 },  // elven am (11)
+  { 77, 81 },    // twelve pm (12)
+  { 107, 109 },  // one pm (13)
+  { 82, 84 },    // two pm (14)
+  { 110, 114 },  // three pm (15)
+  { 60, 63 },    // four pm (16)
+  { 86, 89 },    // five pm (17)
+  { 115, 117 },  // six pm (18)
+  { 71, 75 },    // seven pm (19)
+  { 94, 98 },    // eight pm (20)
+  { 90, 93 },    // nine pm (21)
+  { 118, 120 },  // ten pm (22)
+  { 100, 105 },  // eleven pm (23)
 };
 
 
@@ -94,12 +106,12 @@ void PrintTime(void);
 
 void setup() {
   Serial.begin(115200);
-  rtc.adjust(5, 59, 1, 2023, 11, 16);  // EXAMPLE: 01:26:21 03 Jun 2022 (SETS THE TIME WITH DATE VALUES)
+  rtc.adjust(23, 59, 1, 2023, 11, 16);  // EXAMPLE: 01:26:21 03 Jun 2022 (SETS THE TIME WITH DATE VALUES)
                                          // rtc.adjust(1654219721); // Friday, June 03 2022 01:28:41 (SETS THE TIME WITH UNIX EPOCH TIME)
   pixels.begin();                        // initialize neopixel object
   pixels.clear();  // all pixels off while (1);
   rtc.read();
-  hour = rtc.hour - 1;
+  hour = rtc.hour;
 
   for (int i = hours[hour][0]; i <= hours[hour][1]; i++) {
 
