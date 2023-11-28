@@ -55,21 +55,24 @@
 //               T E N S E Z O'C L O C K
 
 
-
+//includes
 #include <PicoEspTime.h>
 #include <Adafruit_NeoPixel.h>
 
+//defines
 #define PIN 6
 #define NUMPIXELS 129  // 129 pins for bypass (two leds out), 131 total (really there are 132, but led 0)
 #define DELAYVAL 1000
 
+//functions
 PicoEspTime rtc;
 
 uint32_t lastTime;
 
+// array used for hours
 uint8_t hours[24][2]{
 
-  // if less than 81, -1 , if more than 81, -2
+  // for testing if less than 81, -1 , if more than 81, -2
   { 77, 81 },    // twelve am (0)
   { 107, 109 },  // one am (1)
   { 82, 84 },    // two am (2)
@@ -96,8 +99,9 @@ uint8_t hours[24][2]{
   { 100, 105 },  // eleven pm (23)
 };
 
+// array used for minutes
 uint8_t minutes[6][2]{
-  // if less than 81, -1 , if more than 81, -2
+  // for testing if less than 81, -1 , if more than 81, -2
   { 29, 32 },  // 5 past
   { 37, 49 },  // 10 past
   { 14, 20 },  // 15 past
@@ -106,8 +110,8 @@ uint8_t minutes[6][2]{
   { 41, 46 },  // 30 to
 };
 
-
-int hour;
+//ints
+int hour
 int lasthour;
 
 
@@ -120,9 +124,15 @@ void setup() {
   rtc.adjust(11, 59, 1, 2023, 11, 16);  // EXAMPLE: 01:26:21 03 Jun 2022 (SETS THE TIME WITH DATE VALUES)
                                         // rtc.adjust(1654219721); // Friday, June 03 2022 01:28:41 (SETS THE TIME WITH UNIX EPOCH TIME)
   pixels.begin();                       // initialize neopixel object
-  pixels.clear();                       // all pixels off while (1);
+  pixels.clear();                       // sets all pixels off to begin with
+ 
+  //grabs the time at the beginning of the setup 
   rtc.read();
+
   hour = rtc.hour;
+
+  //the entire loop needs to be placed in the setup due to the millis "if loop" so it can run one time before the minute delay
+  
   for (int past = 67; past < 71; past++) {
     if (rtc.minute <= 29) {
       pixels.setPixelColor(past, pixels.Color(255, 0, 0));
@@ -143,55 +153,97 @@ void setup() {
   for (int is = 2; is < 4; is++) {
     pixels.setPixelColor(is, pixels.Color(255, 0, 0));
   }
+  for (int mins = 46; mins < 53; mins++){
+      pixels.setPixelColor(mins, pixels.Color(255, 0, 0);
+    }
+  if (hour <= 0) {
+      for (int hrbypass = 100; hrbypass < 106; hrbypass++) {
+        pixels.setPixelColor(hrbypass, pixels.Color(0, 0, 0));  // turns off 11 if the hour is 12am but stored as 0 in 24 hour time
+      }
+  for (int i = hours[hour][0]; i <= hours[hour][1]; i++) {
+    pixels.setPixelColor(i, pixels.Color(255, 0, 0));
+  }
+  for (int oclock = 124; oclock < 130; oclock++) {
+      pixels.setPixelColor(oclock, pixels.Color(255, 0, 0));
+    }
+  pixels.show();  
+}
+
+void loop() {
+//delay in seconds for how frequent it checks, if over 10k use L for long int (ENTIRE LOOP GOES IN THIS IF LOOP)
+  if (millis() - lastTime >= 60000L) {
+    
+    // grab time
+    rtc.read();
+    PrintTime();
+    lastTime = millis();
+
+  // for setting hours
+    hour = rtc.hour;
+    lasthour = rtc.hour - 1;
+
+  // sets the leds for "past"
+  for (int past = 67; past < 71; past++) {
+    if (rtc.minute <= 29) {
+      pixels.setPixelColor(past, pixels.Color(255, 0, 0));
+    } else {
+      pixels.setPixelColor(past, pixels.Color(0, 0, 0));
+    }
+  }
+
+  // sets the leds for "to"
+  for (int to = 66; to < 68; to++) {
+    if (rtc.minute >= 30) {
+      pixels.setPixelColor(to, pixels.Color(255, 0, 0));
+    } else {
+      pixels.setPixelColor(66, pixels.Color(0, 0, 0));
+    }
+  }
+
+  // sets the leds for "it"
+  for (int it = 0; it < 1; it++) {
+    pixels.setPixelColor(it, pixels.Color(255, 0, 0));
+  }
+
+  // sets the leds for "is"
+  for (int is = 2; is < 4; is++) {
+    pixels.setPixelColor(is, pixels.Color(255, 0, 0));
+  }
+
+  // sets the leds for "minutes"
+  for (int mins = 46; mins < 53; mins++){
+      pixels.setPixelColor(mins, pixels.Color(255, 0, 0);
+    }
+
+  // 24 hour time bypass, since 0-1 breaks the array, set "eleven" to off
+  if (hour <= 0) {
+      for (int hrbypass = 100; hrbypass < 106; hrbypass++) {
+        pixels.setPixelColor(hrbypass, pixels.Color(0, 0, 0));  // turns off 11 if the hour is 12am but stored as 0 in 24 hour time
+      }
+    
+  // only need in loop, removes leds for "last hour" (rtc.hour - 1)
+    for (int i = hours[lasthour][0]; i <= hours[lasthour][1]; i++) {
+      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+    }
+    
+  // sets the leds for value of "rtc.hour" using a 2d array
+  // *in 2d array 12=0, 1=1, 2=2, 3=3, and so on, this ONLY WORKS because the numbers match so rtc.hour can be used to call to the array*
   for (int i = hours[hour][0]; i <= hours[hour][1]; i++) {
 
     pixels.setPixelColor(i, pixels.Color(255, 0, 0));
   }
-  pixels.show();
-}
 
-void loop() {
-  if (millis() - lastTime >= 60000L) {
-    rtc.read();
-    PrintTime();
-    lastTime = millis();
-    hour = rtc.hour;
-    lasthour = rtc.hour - 1;
-
-    for (int past = 67; past < 71; past++) {
-      if (rtc.minute <= 29) {
-        pixels.setPixelColor(past, pixels.Color(255, 0, 0));
-      } else {
-        pixels.setPixelColor(past, pixels.Color(0, 0, 0));
-      }
-    }
-    for (int to = 66; to < 68; to++) {
-      if (rtc.minute >= 30) {
-        pixels.setPixelColor(to, pixels.Color(255, 0, 0));
-      } else {
-        pixels.setPixelColor(66, pixels.Color(0, 0, 0));
-      }
-    }
-    for (int mins = 46; mins < 53; mins++){
-      pixels.setPixelColor(mins, pixels.Color(255, 0, 0);
-    }
-    if (hour <= 0) {
-      for (int hrbypass = 100; hrbypass < 106; hrbypass++) {
-        pixels.setPixelColor(hrbypass, pixels.Color(0, 0, 0));  // turns off 11 if the hour is 12am but stored as 0 in 24 hour time
-      }
-    }
-    for (int i = hours[lasthour][0]; i <= hours[lasthour][1]; i++) {
-      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
-    }
-    for (int i = hours[hour][0]; i <= hours[hour][1]; i++) {
-      pixels.setPixelColor(i, pixels.Color(255, 0, 0));
-    }
-    for (int oclock = 124; oclock < 130; oclock++) {
+  // sets the leds for "o'clock"
+  for (int oclock = 124; oclock < 130; oclock++) {
       pixels.setPixelColor(oclock, pixels.Color(255, 0, 0));
     }
-    pixels.show();
+
+  // turns on all of the leds for above true statements
+  pixels.show();
+    
   }
 }
+
 void PrintTime() {
   Serial.println(rtc.getTime("%A, %B %d %Y %H:%M:%S"));  // (String) returns time with specified format
                                                          // formating opti`ons  https://www.cplusplus.com/reference/ctime/strftime/
