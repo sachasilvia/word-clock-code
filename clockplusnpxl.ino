@@ -7,9 +7,9 @@
 // 47 -> 42 = THIRTY
 // 40 -> 38 = TEN
 // more words for grammar correctness
-// 71 -> 65 = MINUTES
-// 72 -> 75 = PAST
-// 75 -> 76 = TO
+// 48 -> 54 = MINUTES
+// 68 -> 71 = PAST
+// 67 -> 68 = TO
 // actual numbers for the hour
 // 64 -> 61 = FOUR
 // 72 -> 76 = SEVEN
@@ -96,8 +96,19 @@ uint8_t hours[24][2]{
   { 100, 105 },  // eleven pm (23)
 };
 
+uint8_t minutes[6][2]{
+  // if less than 81, -1 , if more than 81, -2
+  { 29, 32 },  // 5 past
+  { 37, 49 },  // 10 past
+  { 14, 20 },  // 15 past
+  { 23, 28 },  // 20 past
+  { 23, 32 },  // 25 past
+  { 41, 46 },  // 30 to
+};
+
 
 int hour;
+int lasthour;
 
 
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
@@ -106,13 +117,32 @@ void PrintTime(void);
 
 void setup() {
   Serial.begin(115200);
-  rtc.adjust(23, 59, 1, 2023, 11, 16);  // EXAMPLE: 01:26:21 03 Jun 2022 (SETS THE TIME WITH DATE VALUES)
-                                         // rtc.adjust(1654219721); // Friday, June 03 2022 01:28:41 (SETS THE TIME WITH UNIX EPOCH TIME)
-  pixels.begin();                        // initialize neopixel object
-  pixels.clear();  // all pixels off while (1);
+  rtc.adjust(11, 59, 1, 2023, 11, 16);  // EXAMPLE: 01:26:21 03 Jun 2022 (SETS THE TIME WITH DATE VALUES)
+                                        // rtc.adjust(1654219721); // Friday, June 03 2022 01:28:41 (SETS THE TIME WITH UNIX EPOCH TIME)
+  pixels.begin();                       // initialize neopixel object
+  pixels.clear();                       // all pixels off while (1);
   rtc.read();
   hour = rtc.hour;
-
+  for (int past = 67; past < 71; past++) {
+    if (rtc.minute <= 29) {
+      pixels.setPixelColor(past, pixels.Color(255, 0, 0));
+    } else {
+      pixels.setPixelColor(past, pixels.Color(0, 0, 0));
+    }
+  }
+  for (int to = 66; to < 68; to++) {
+    if (rtc.minute >= 30) {
+      pixels.setPixelColor(to, pixels.Color(255, 0, 0));
+    } else {
+      pixels.setPixelColor(66, pixels.Color(0, 0, 0));
+    }
+  }
+  for (int it = 0; it < 1; it++) {
+    pixels.setPixelColor(it, pixels.Color(255, 0, 0));
+  }
+  for (int is = 2; is < 4; is++) {
+    pixels.setPixelColor(is, pixels.Color(255, 0, 0));
+  }
   for (int i = hours[hour][0]; i <= hours[hour][1]; i++) {
 
     pixels.setPixelColor(i, pixels.Color(255, 0, 0));
@@ -125,8 +155,29 @@ void loop() {
     rtc.read();
     PrintTime();
     lastTime = millis();
-    hour = rtc.hour - 1;
-    for (int i = hours[hour-1][0]; i <= hours[hour-1][1]; i++) {
+    hour = rtc.hour;
+    lasthour = rtc.hour - 1;
+
+    for (int past = 67; past < 71; past++) {
+      if (rtc.minute <= 29) {
+        pixels.setPixelColor(past, pixels.Color(255, 0, 0));
+      } else {
+        pixels.setPixelColor(past, pixels.Color(0, 0, 0));
+      }
+    }
+    for (int to = 66; to < 68; to++) {
+      if (rtc.minute >= 30) {
+        pixels.setPixelColor(to, pixels.Color(255, 0, 0));
+      } else {
+        pixels.setPixelColor(66, pixels.Color(0, 0, 0));
+      }
+    }
+    if (hour <= 0) {
+      for (int hrbypass = 100; hrbypass < 106; hrbypass++) {
+        pixels.setPixelColor(hrbypass, pixels.Color(0, 0, 0));  // turns off 11 if the hour is 12am but stored as 0 in 24 hour time
+      }
+    }
+    for (int i = hours[lasthour][0]; i <= hours[lasthour][1]; i++) {
       pixels.setPixelColor(i, pixels.Color(0, 0, 0));
     }
     for (int i = hours[hour][0]; i <= hours[hour][1]; i++) {
