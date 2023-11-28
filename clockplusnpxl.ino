@@ -172,6 +172,9 @@ void loop() {
         pixels.setPixelColor(66, pixels.Color(0, 0, 0));
       }
     }
+    for (int mins = 46; mins < 53; mins++){
+      pixels.setPixelColor(mins, pixels.Color(255, 0, 0);
+    }
     if (hour <= 0) {
       for (int hrbypass = 100; hrbypass < 106; hrbypass++) {
         pixels.setPixelColor(hrbypass, pixels.Color(0, 0, 0));  // turns off 11 if the hour is 12am but stored as 0 in 24 hour time
@@ -182,6 +185,9 @@ void loop() {
     }
     for (int i = hours[hour][0]; i <= hours[hour][1]; i++) {
       pixels.setPixelColor(i, pixels.Color(255, 0, 0));
+    }
+    for (int oclock = 124; oclock < 130; oclock++) {
+      pixels.setPixelColor(oclock, pixels.Color(255, 0, 0));
     }
     pixels.show();
   }
