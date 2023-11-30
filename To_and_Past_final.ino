@@ -2,14 +2,10 @@
 #include <Adafruit_NeoPixel.h>
 #define PIN 6
 #define NUMPIXELS 129
-#define DELAYVAL 1000
 PicoEspTime rtc;
 uint32_t lastTime;
-int hour;
-int lasthour;
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 void setup() {
-  Serial.begin(115200);
   rtc.adjust(23, 59, 55, 2023, 11, 16);
   pixels.clear();                       
   rtc.read();
