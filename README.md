@@ -1,4 +1,4 @@
-#Hello, this is the repository for my Word Clock project, here is where I will explain what each file in the repository does.
+# Hello, this is the repository for my Word Clock project, here is where I will explain what each file in the repository does.
 
 Make sure to download this library for the code to work --> https://github.com/3tawi/PicoEspTime //LIBRARY DOWNLOAD HERE!!!
 
