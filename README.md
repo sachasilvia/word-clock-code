@@ -1,6 +1,6 @@
 # Hello, welcome to the repository for my Word Clock project, this ReadMe is where I will explain what each file in the repository does.
 
-Make sure to download this library for the code to work --> https://github.com/3tawi/PicoEspTime //LIBRARY DOWNLOAD HERE!!!
+Make sure to download this library for the code to work --> https://github.com/3tawi/PicoEspTime
 
 actualclock.ino - This is the code to get the internal rtc in the rp2040 to run on its own, it prints time in the serial monitor and stores all time values as objects under "rtc."xxxx"", can be set with  srtf time or unix epoch
 
