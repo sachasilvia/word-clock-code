@@ -7,3 +7,5 @@ actualclock.ino - This is the code to get the internal rtc in the rp2040 to run 
 clockplusnpxl.ino - This is the main test document that I make all edits for the project in, essentially a place-holder for the final version of the code while the file doesn't exist, the MOST changes will be found here
 
 all_non-number_words_final.ino - the final version of the code for powering ALL non-number words (it, is, minutes, to, past, o'clock) 
+
+minutes.ino - This is the final version of the code for running just minutes based on telling time in five-minute intervals with the highest value being 30 minutes
