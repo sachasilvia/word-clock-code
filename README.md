@@ -4,8 +4,8 @@ Make sure to download this library for the code to work --> https://github.com/3
 
 actualclock.ino - This is the code to get the internal rtc in the rp2040 to run on its own, it prints time in the serial monitor and stores all time values as objects under "rtc."xxxx"", can be set with  srtf time or unix epoch
 
-clockplusnpxl.ino - This is the main test document that I make all edits for the project in, essentially a place-holder for the final version of the code while the file doesn't exist, the MOST changes will be found here
+testdoc.ino - This is the main test document that I make all edits for the project in, essentially a place-holder for the final version of the code while the file doesn't exist, the MOST changes will be found here
 
-all_non-number_words_final.ino - the final version of the code for powering ALL non-number words (it, is, minutes, to, past, o'clock) 
+non_numbers.ino - the final version of the code for powering ALL non-number words (it, is, minutes, to, past, o'clock) 
 
 minutes.ino - This is the final version of the code for running just minutes based on telling time in five-minute intervals with the highest value being 30 minutes
