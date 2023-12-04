@@ -1,4 +1,3 @@
-
 #include <PicoEspTime.h>
 #include <Adafruit_NeoPixel.h>
 #define PIN 6
@@ -9,14 +8,14 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 void PrintTime(void);
 void setup() {
   Serial.begin(115200);
-  rtc.adjust(23, 9, 55, 2023, 11, 16);
+  rtc.adjust(23, 34, 55, 2023, 11, 16);
   pixels.begin();
   pixels.clear();
     rtc.read();
     PrintTime();
     lastTime = millis();
     for (int fivem = 29; fivem < 33; fivem++) {
-      if (((rtc.minute >= 5) && (rtc.minute < 10)) || (rtc.minute >= 55)) {
+      if (((rtc.minute >= 5) && (rtc.minute < 10)) || ((rtc.minute >= 25) && (rtc.minute < 30)) || ((rtc.minute >=35) && (rtc.minute < 40)) || (rtc.minute >= 55)) {
         pixels.setPixelColor(fivem, pixels.Color(255, 0, 0));
       } else {
         pixels.setPixelColor(fivem, pixels.Color(0, 0, 0));
@@ -37,17 +36,10 @@ void setup() {
     }
    }
     for (int twentym = 23; twentym < 29; twentym++) {
-    if ( ( (rtc.minute) >= 20 && (rtc.minute < 25) ) || ( (rtc.minute >= 40) && (rtc.minute < 45) ) ) {
+    if ( ( (rtc.minute >= 20) && (rtc.minute < 30) ) || ( (rtc.minute >= 35 ) && (rtc.minute < 45) ) ) {
       pixels.setPixelColor(twentym, pixels.Color(255, 0, 0));
     } else {
       pixels.setPixelColor(twentym, pixels.Color(0, 0, 0));
-    }
-  }
-   for (int twentyfivem = 23; twentyfivem < 33; twentyfivem++) {
-    if ( ( (rtc.minute >= 25) && (rtc.minute < 30) ) || ( (rtc.minute >= 35) && (rtc.minute < 40) ) ) {
-      pixels.setPixelColor(twentyfivem, pixels.Color(255, 0, 0));
-    } else {
-      pixels.setPixelColor(twentyfivem, pixels.Color(0, 0, 0));
     }
   }
    for (int thirtym = 41; thirtym < 47; thirtym++) {
@@ -70,7 +62,7 @@ void loop() {
     PrintTime();
     lastTime = millis();
     for (int fivem = 29; fivem < 33; fivem++) {
-      if (((rtc.minute >= 5) && (rtc.minute < 10)) || (rtc.minute >= 55)) {
+      if (((rtc.minute >= 5) && (rtc.minute < 10)) || ((rtc.minute >= 25) && (rtc.minute < 30)) || ((rtc.minute >=35) && (rtc.minute < 40)) || (rtc.minute >= 55)) {
         pixels.setPixelColor(fivem, pixels.Color(255, 0, 0));
       } else {
         pixels.setPixelColor(fivem, pixels.Color(0, 0, 0));
@@ -91,18 +83,12 @@ void loop() {
     }
    }
     for (int twentym = 23; twentym < 29; twentym++) {
-    if ( ( (rtc.minute >= 20) && (rtc.minute < 25) ) || ( (rtc.minute >= 40) && (rtc.minute < 45) ) ) {
+    if ( ( (rtc.minute >= 20) && (rtc.minute < 30) ) || ( (rtc.minute >= 35 ) && (rtc.minute < 45) ) ) {
       pixels.setPixelColor(twentym, pixels.Color(255, 0, 0));
     } else {
       pixels.setPixelColor(twentym, pixels.Color(0, 0, 0));
     }
   }
-   for (int twentyfivem = 23; twentyfivem < 33; twentyfivem++) {
-    if ( ( (rtc.minute >= 25) && (rtc.minute < 30) ) || ( (rtc.minute >= 35) && (rtc.minute < 40) ) ) {
-      pixels.setPixelColor(twentyfivem, pixels.Color(255, 0, 0));
-    } else {
-      pixels.setPixelColor(twentyfivem, pixels.Color(0, 0, 0));
-    }
   }
    for (int thirtym = 41; thirtym < 47; thirtym++) {
     if ( (rtc.minute >= 30) && (rtc.minute < 35) ) {
@@ -111,7 +97,6 @@ void loop() {
       pixels.setPixelColor(thirtym, pixels.Color(0, 0, 0));
     }
   }
-}
   pixels.show();
 }
 void PrintTime() {
