@@ -13,3 +13,5 @@ minutes.ino - This is the final version of the code for running just minutes bas
 everything_but_hours.ino - Everything working but hours, combined minutes.ino and non_numbers.ino
 
 top_comments - To maintain a document with important comments
+
+hours.ino - This is the final version of the code for running just hours based on the hour switching at the thirty minute mark
