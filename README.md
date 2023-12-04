@@ -10,4 +10,4 @@ non_numbers.ino - the final version of the code for powering ALL non-number word
 
 minutes.ino - This is the final version of the code for running just minutes based on telling time in five-minute intervals with the highest value being 30 minutes
 
-everything_but_hours - Everything working but hours, combined minutes.ino and non_numbers.ino
+everything_but_hours.ino - Everything working but hours, combined minutes.ino and non_numbers.ino
