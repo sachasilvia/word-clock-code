@@ -9,3 +9,5 @@ testdoc.ino - This is the main test document that I make all edits for the proje
 non_numbers.ino - the final version of the code for powering ALL non-number words (it, is, minutes, to, past, o'clock) 
 
 minutes.ino - This is the final version of the code for running just minutes based on telling time in five-minute intervals with the highest value being 30 minutes
+
+everything_but_hours - Everything working but hours, combined minutes.ino and non_numbers.ino
