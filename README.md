@@ -15,3 +15,5 @@ everything_but_hours.ino - Everything working but hours, combined minutes.ino an
 top_comments - To maintain a document with important comments
 
 hours.ino - This is the final version of the code for running just hours based on the hour switching at the thirty minute mark
+
+wordclockfinal_noapi.ino - completed code for the word clock without setting time via an api
