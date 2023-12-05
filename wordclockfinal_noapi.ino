@@ -20,7 +20,7 @@ void setled(int start, int end, int on) {
 }
 void setup() {
   Serial.begin(115200);
-  rtc.adjust(1, 43, 50, 2023, 12, 4);
+  rtc.adjust(1, 55, 10, 2023, 12, 4);
   pixels.begin();
   pixels.clear();
   rtc.read();
@@ -30,6 +30,8 @@ void setup() {
   setled(2, 3, true);  //is
   if (rtc.minute >= 5) {
     setled(67, 67, true);  //t for past and to
+  } else {
+    setled(67, 67, false);
   }
   if (rtc.minute >= 5) {
     setled(47, 53, true);  //minutes
@@ -142,6 +144,8 @@ void loop() {
     setled(2, 3, true);  //is
     if (rtc.minute >= 5) {
       setled(67, 67, true);  //t for past and to
+    } else {
+      setled(67, 67, false);
     }
     if (rtc.minute >= 5) {
       setled(47, 53, true);  //minutes
