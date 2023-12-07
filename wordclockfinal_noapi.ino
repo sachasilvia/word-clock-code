@@ -54,15 +54,22 @@
 //               S I X T H R E E O N E G
 //               T E N S E Z O'C L O C K
 
+// libraries 
 #include <PicoEspTime.h>
 #include <Adafruit_NeoPixel.h>
+ 
 #define PIN 6
 #define NUMPIXELS 129
+
 PicoEspTime rtc;
 uint32_t lastTime;
+
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
 void PrintTime(void);
 void setled(int, int, int);
+
+// set led function
 void setled(int start, int end, int on) {
   for (int pixel = start; pixel < end + 1; pixel++) {
     if (on == true) {
@@ -74,9 +81,10 @@ void setled(int start, int end, int on) {
     pixels.show();
   }
 }
+
 void setup() {
-  Serial.begin(115200);
-  rtc.adjust(1, 55, 10, 2023, 12, 4);
+  Serial.begin(115200);  
+  rtc.adjust(1, 55, 10, 2023, 12, 4); // sets the time (hour,minute,second,year,month,day)
   pixels.begin();
   pixels.clear();
   rtc.read();
@@ -191,8 +199,9 @@ void setup() {
     setled(77, 81, false);
   }
 }
+
 void loop() {
-  if (millis() - lastTime >= 1000) {
+  if (millis() - lastTime >= 1000) { //sets how frequent it checks time 1000= 1 per second, 60000L= 1 per minute
     rtc.read();
     PrintTime();
     lastTime = millis();
@@ -306,6 +315,7 @@ void loop() {
     }
   }
 }
+
 void PrintTime() {
   Serial.println(rtc.getTime("%A, %B %d %Y %H:%M:%S"));
   Serial.println("");
